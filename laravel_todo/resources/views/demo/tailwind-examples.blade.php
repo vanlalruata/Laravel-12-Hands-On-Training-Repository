@@ -39,7 +39,7 @@
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Cards & Layout</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {{-- Card 1 --}}
-                <div class="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-blue-100 text-sm">Total Todos</p>
@@ -54,7 +54,7 @@
                 </div>
 
                 {{-- Card 2 --}}
-                <div class="bg-linear-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
+                <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-green-100 text-sm">Completed</p>
@@ -69,7 +69,7 @@
                 </div>
 
                 {{-- Card 3 --}}
-                <div class="bg-linear-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+                <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-purple-100 text-sm">Pending</p>
@@ -117,7 +117,7 @@
             <div class="space-y-3">
                 <div class="bg-green-50 border-l-4 border-green-500 p-4">
                     <div class="flex">
-                        <div class="shrink-0">
+                        <div class="flex-shrink-0">
                             <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                             </svg>
@@ -130,7 +130,7 @@
                 
                 <div class="bg-red-50 border-l-4 border-red-500 p-4">
                     <div class="flex">
-                        <div class="shrink-0">
+                        <div class="flex-shrink-0">
                             <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                             </svg>

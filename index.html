@@ -3023,17 +3023,17 @@ class CategorySeeder extends Seeder
                             <div class="file-path">resources/views/todos/create.blade.php (Add category dropdown)</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code class="language-php">                <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select name="category_id" id="category_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2">
-                        <option value="">No Category</option>
+                                <pre><code class="language-php">                &lt;div&gt;
+                    &lt;label for="category_id" class="block text-sm font-medium text-gray-700"&gt;Category&lt;/label&gt;
+                    &lt;select name="category_id" id="category_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"&gt;
+                        &lt;option value=""&gt;No Category&lt;/option&gt;
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                <span style="color: {{ $category->color }}">●</span> {{ $category->name }}
-                            </option>
+                            &lt;option value="{{ $category-&gt;id }}" {{ old('category_id') == $category-&gt;id ? 'selected' : '' }}&gt;
+                                &lt;span style="color: {{ $category-&gt;color }}"&gt;●&lt;/span&gt; {{ $category-&gt;name }}
+                            &lt;/option&gt;
                         @endforeach
-                    </select>
-                </div></code></pre>
+                    &lt;/select&gt;
+                &lt;/div&gt;</code></pre>
                             </div>
                         </div>
                         <div class="bg-gray-900 mt-4">
@@ -3067,10 +3067,10 @@ class CategorySeeder extends Seeder
                             <div class="file-path">resources/views/todos/index.blade.php (Category badge)</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code class="language-php">                                        @if($todo->category)
-                                            <span class="px-2 py-0.5 text-xs rounded-full" style="background-color: {{ $todo->category->color }}20; color: {{ $todo->category->color }}; border: 1px solid {{ $todo->category->color }}40;">
-                                                {{ $todo->category->name }}
-                                            </span>
+                                <pre><code class="language-php">                                        @if($todo-&gt;category)
+                                            &lt;span class="px-2 py-0.5 text-xs rounded-full" style="background-color: {{ $todo-&gt;category-&gt;color }}20; color: {{ $todo-&gt;category-&gt;color }}; border: 1px solid {{ $todo-&gt;category-&gt;color }}40;"&gt;
+                                                {{ $todo-&gt;category-&gt;name }}
+                                            &lt;/span&gt;
                                         @endif</code></pre>
                             </div>
                         </div>

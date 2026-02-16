@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -36,7 +37,7 @@ class User extends Authenticatable
     /**
      * Get the attributes that should be cast.
      *
-     * @return array<string, string>
+     * @return array
      */
     protected function casts(): array
     {
@@ -44,5 +45,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all todos for the user.
+     */
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
+
+    /**
+     * Get completed todos count.
+     */
+    public function completedTodosCount(): int
+    {
+        return $this->todos()->completed()->count();
+    }
+
+    /**
+     * Get active todos count.
+     */
+    public function activeTodosCount(): int
+    {
+        return $this->todos()->active()->count();
     }
 }
