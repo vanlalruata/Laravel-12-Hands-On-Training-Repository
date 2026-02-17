@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Skill Test & Sudoku Project - Complete Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+        .progress-bar { transition: width 0.3s ease; }
+        .day-section { display: none; }
+        .day-section.active { display: block; }
+        .nav-link.active { background: #7c3aed; color: white; }
+        .quiz-option { cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { border-color: #7c3aed; }
+        .quiz-option.selected { border-color: #7c3aed; background: #f5f3ff; }
+        .quiz-option.correct { border-color: #22c55e; background: #dcfce7; }
+        .quiz-option.incorrect { border-color: #ef4444; background: #fee2e2; }
+        pre { margin: 0 !important; border-radius: 8px; }
+        .file-path {
+            background: #1e1b4b;
+            color: #c7d2fe;
+            padding: 8px 16px;
+            font-family: monospace;
+            font-size: 13px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #312e81;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-purple-600 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i data-lucide="graduation-cap" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold">Laravel Skill Test & Sudoku</h1>
+                    <p class="text-purple-200 text-sm">Test Your Knowledge & Build a Project</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <div class="text-sm text-purple-200">Your Score</div>
+                    <div class="text-2xl font-bold" id="quiz-score">0%</div>
+                </div>
+                <div class="w-32 bg-purple-800 rounded-full h-2">
+                    <div id="progress-fill" class="progress-bar bg-green-400 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto flex">
+        <!-- Sidebar Navigation -->
+        <aside class="w-72 bg-white shadow-lg sticky top-[88px] h-[calc(100vh-88px)] overflow-y-auto">
+            <div class="p-4">
+                <nav class="space-y-2">
+                    <button onclick="showDay(0)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-day="0">
+                        <i data-lucide="home" class="w-5 h-5"></i>
+                        <span>Overview</span>
+                    </button>
+                    
+                    <div class="pt-2 border-t">
+                        <p class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Part 1: Skill Test</p>
+                    </div>
+                    
+                    <button onclick="showDay(1)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="1">
+                        <span class="bg-purple-100 text-purple-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                        <div>
+                            <div class="font-medium">Day 1</div>
+                            <div class="text-xs text-gray-500">Fundamentals Quiz</div>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showDay(2)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="2">
+                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                        <div>
+                            <div class="font-medium">Day 2</div>
+                            <div class="text-xs text-gray-500">Database & Eloquent</div>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showDay(3)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="3">
+                        <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                        <div>
+                            <div class="font-medium">Day 3</div>
+                            <div class="text-xs text-gray-500">Advanced Quiz</div>
+                        </div>
+                    </button>
+
+                    <div class="pt-2 border-t">
+                        <p class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Part 2: Sudoku Project</p>
+                    </div>
+                    
+                    <button onclick="showDay(4)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="4">
+                        <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                        <div>
+                            <div class="font-medium">Day 1</div>
+                            <div class="text-xs text-gray-500">Setup & Database</div>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showDay(5)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="5">
+                        <span class="bg-red-100 text-red-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                        <div>
+                            <div class="font-medium">Day 2</div>
+                            <div class="text-xs text-gray-500">Game Logic & API</div>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showDay(6)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="6">
+                        <span class="bg-yellow-100 text-yellow-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                        <div>
+                            <div class="font-medium">Day 3</div>
+                            <div class="text-xs text-gray-500">UI & Scoreboard</div>
+                        </div>
+                    </button>
+                </nav>
+
+                <div class="mt-6 p-4 bg-purple-50 rounded-lg">
+                    <h4 class="font-semibold text-purple-900 mb-2">Quick Stats</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Total Questions</span>
+                            <span class="font-bold text-purple-600" id="total-questions">45</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Answered</span>
+                            <span class="font-bold text-green-600" id="answered-questions">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <!-- DAY 0: Overview -->
+            <section id="day-0" class="day-section active">
+                <div class="max-w-4xl">
+                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl p-8 mb-8">
+                        <h2 class="text-3xl font-bold mb-4">Laravel Skill Test & Sudoku Project</h2>
+                        <p class="text-lg opacity-90 mb-6">Test your Laravel knowledge with our comprehensive quiz, then build a real-world Sudoku game project with Laravel 12.50!</p>
+                        <div class="flex gap-4 flex-wrap">
+                            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Laravel 12.50</span>
+                            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">PHP 8.2+</span>
+                            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Tailwind CSS 4.x</span>
+                            <span class="bg-white/20 px-3 py-1 rounded-full text-sm">MySQL</span>
+                        </div>
+                    </div>
+
+                    <!-- Instructor Card -->
+                    <div class="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold">VH</div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-900">Dr. Vanlalruata Hnamte</h3>
+                                <p class="text-purple-600 font-medium">Instructor</p>
+                                <p class="text-gray-600 text-sm mt-1">Software Developer • Educator • Freelancer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-purple-100 p-3 rounded-lg">
+                                    <i data-lucide="brain" class="w-6 h-6 text-purple-600"></i>
+                                </div>
+                                <h3 class="font-bold text-lg">Part 1: Skill Test</h3>
+                            </div>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> 45+ Questions</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Laravel Fundamentals</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Database & Eloquent</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Advanced Concepts</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-orange-100 p-3 rounded-lg">
+                                    <i data-lucide="puzzle" class="w-6 h-6 text-orange-600"></i>
+                                </div>
+                                <h3 class="font-bold text-lg">Part 2: Sudoku Project</h3>
+                            </div>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Real-time Game Play</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Scoreboard & Rankings</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Multiple Difficulty Levels</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Time-based Scoring</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
+                        <h3 class="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                            Environment Requirements
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <table class="w-full text-sm">
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">PHP</td>
+                                        <td class="py-2 text-amber-700">≥ 8.2</td>
+                                    </tr>
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">Laravel</td>
+                                        <td class="py-2 text-amber-700">12.50</td>
+                                    </tr>
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">Composer</td>
+                                        <td class="py-2 text-amber-700">Latest</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <table class="w-full text-sm">
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">Node.js</td>
+                                        <td class="py-2 text-amber-700">≥ 20</td>
+                                    </tr>
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">Database</td>
+                                        <td class="py-2 text-amber-700">MySQL 8.0+</td>
+                                    </tr>
+                                    <tr class="border-b border-amber-200">
+                                        <td class="py-2 font-medium text-amber-800">CSS Framework</td>
+                                        <td class="py-2 text-amber-700">Tailwind CSS 4.x</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="showDay(1)" class="bg-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-700 transition-colors flex items-center gap-2 mx-auto">
+                            Start Skill Test
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 1: Laravel Fundamentals Quiz -->
+            <section id="day-1" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-purple-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">1</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">Laravel Fundamentals Quiz</h2>
+                                <p class="text-purple-100">Test your knowledge of Laravel basics, routing, controllers, and Blade</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 1 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q1">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 1: What command is used to create a new Laravel project?</h3>
+                            <p class="text-gray-600 text-sm">Laravel Basics</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q1', false)">
+                                <p class="font-medium">A) php artisan new project</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q1', true)">
+                                <p class="font-medium">B) laravel new project_name</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q1', false)">
+                                <p class="font-medium">C) composer create-laravel project</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q1', false)">
+                                <p class="font-medium">D) php make:project</p>
+                            </div>
+                        </div>
+                        <div class="q1-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>laravel new project_name</code> to create a new Laravel project.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q2">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 2: Which file defines the application routes in Laravel 12?</h3>
+                            <p class="text-gray-600 text-sm">Routing</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q2', false)">
+                                <p class="font-medium">A) app/Http/routes.php</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q2', false)">
+                                <p class="font-medium">B) routes/app.php</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q2', true)">
+                                <p class="font-medium">C) routes/web.php</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q2', false)">
+                                <p class="font-medium">D) config/routes.php</p>
+                            </div>
+                        </div>
+                        <div class="q2-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Web routes are defined in <code>routes/web.php</code>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q3">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 3: How do you create a controller in Laravel?</h3>
+                            <p class="text-gray-600 text-sm">Controllers</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q3', false)">
+                                <p class="font-medium">A) php artisan create:controller NameController</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q3', false)">
+                                <p class="font-medium">B) php artisan make:controller Name</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q3', true)">
+                                <p class="font-medium">C) php artisan make:controller NameController</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q3', false)">
+                                <p class="font-medium">D) php artisan controller:create NameController</p>
+                            </div>
+                        </div>
+                        <div class="q3-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>php artisan make:controller NameController</code>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q4">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 4: What is the default templating engine in Laravel?</h3>
+                            <p class="text-gray-600 text-sm">Blade Templates</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q4', false)">
+                                <p class="font-medium">A) Twig</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q4', true)">
+                                <p class="font-medium">B) Blade</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q4', false)">
+                                <p class="font-medium">C) Smarty</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q4', false)">
+                                <p class="font-medium">D) BladeX</p>
+                            </div>
+                        </div>
+                        <div class="q4-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Laravel uses Blade as its templating engine.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q5">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 5: Which syntax is used to output data in Blade templates?</h3>
+                            <p class="text-gray-600 text-sm">Blade Templates</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q5', true)">
+                                <p class="font-medium">A) {{ $variable }}</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q5', false)">
+                                <p class="font-medium">B) &lt;?php echo $variable; ?&gt;</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q5', false)">
+                                <p class="font-medium">C) {$variable}</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q5', false)">
+                                <p class="font-medium">D) <%= variable %></p>
+                            </div>
+                        </div>
+                        <div class="q5-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Blade uses <code>{{ $variable }}</code> to escape output.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 6 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q6">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 6: What does the Route::get() method do?</h3>
+                            <p class="text-gray-600 text-sm">Routing</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q6', false)">
+                                <p class="font-medium">A) Creates a POST route</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q6', false)">
+                                <p class="font-medium">B) Creates an API route</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q6', false)">
+                                <p class="font-medium">C) Creates an admin route</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q6', true)">
+                                <p class="font-medium">D) Creates a GET route for HTTP requests</p>
+                            </div>
+                        </div>
+                        <div class="q6-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Route::get() handles GET HTTP requests.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 7 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q7">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 7: What is middleware in Laravel?</h3>
+                            <p class="text-gray-600 text-sm">Middleware</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q7', false)">
+                                <p class="font-medium">A) A database query builder</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q7', false)">
+                                <p class="font-medium">B) A template engine</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q7', true)">
+                                <p class="font-medium">C) HTTP request/response filter</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q7', false)">
+                                <p class="font-medium">D) A caching mechanism</p>
+                            </div>
+                        </div>
+                        <div class="q7-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Middleware filters HTTP requests entering your application.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 8 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 8: How do you pass data from controller to view?</h3>
+                            <p class="text-gray-600 text-sm">Controllers & Views</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q8', false)">
+                                <p class="font-medium">A) return view('page', $data);</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q8', false)">
+                                <p class="font-medium">B) return view('page')->with($data);</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q8', true)">
+                                <p class="font-medium">C) return view('page', compact('variable'));</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q8', false)">
+                                <p class="font-medium">D) view('page', $data);</p>
+                            </div>
+                        </div>
+                        <div class="q8-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>compact()</code> or <code>with()</code> to pass data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 9 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q9">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 9: What is the purpose of CSRF token in Laravel forms?</h3>
+                            <p class="text-gray-600 text-sm">Security</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q9', true)">
+                                <p class="font-medium">A) Prevent cross-site request forgery</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q9', false)">
+                                <p class="font-medium">B) Cache the form data</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q9', false)">
+                                <p class="font-medium">C) Encrypt form submissions</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q9', false)">
+                                <p class="font-medium">D) Validate form inputs</p>
+                            </div>
+                        </div>
+                        <div class="q9-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> CSRF tokens prevent cross-site request forgery attacks.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 10 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q10">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 10: Which command starts the Laravel development server?</h3>
+                            <p class="text-gray-600 text-sm">Development Server</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q10', true)">
+                                <p class="font-medium">A) php artisan serve</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q10', false)">
+                                <p class="font-medium">B) php artisan server</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q10', false)">
+                                <p class="font-medium">C) php artisan start</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q10', false)">
+                                <p class="font-medium">D) php artisan run</p>
+                            </div>
+                        </div>
+                        <div class="q10-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>php artisan serve</code> to start the development server.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 1 Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            Day 1 Quiz Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">You've completed the Laravel Fundamentals quiz!</p>
+                        <button onclick="showDay(2)" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                            Continue to Day 2 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 2: Database & Eloquent Quiz -->
+            <section id="day-2" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-blue-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">2</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">Database & Eloquent Quiz</h2>
+                                <p class="text-blue-100">Test your knowledge of migrations, models, and Eloquent ORM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 11 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q11">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 11: What command creates a new migration file?</h3>
+                            <p class="text-gray-600 text-sm">Migrations</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q11', false)">
+                                <p class="font-medium">A) php artisan make:table table_name</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q11', false)">
+                                <p class="font-medium">B) php artisan migration:create table_name</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q11', true)">
+                                <p class="font-medium">C) php artisan make:migration create_table_name</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q11', false)">
+                                <p class="font-medium">D) php artisan create:migration table_name</p>
+                            </div>
+                        </div>
+                        <div class="q11-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>php artisan make:migration</code> to create migrations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 12 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q12">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 12: What command runs all pending migrations?</h3>
+                            <p class="text-gray-600 text-sm">Migrations</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q12', true)">
+                                <p class="font-medium">A) php artisan migrate</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q12', false)">
+                                <p class="font-medium">B) php artisan db:migrate</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q12', false)">
+                                <p class="font-medium">C) php artisan migrate:run</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q12', false)">
+                                <p class="font-medium">D) php artisan run:migrations</p>
+                            </div>
+                        </div>
+                        <div class="q12-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>php artisan migrate</code> to run migrations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 13 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q13">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 13: How do you create an Eloquent model with migration?</h3>
+                            <p class="text-gray-600 text-sm">Models</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q13', false)">
+                                <p class="font-medium">A) php artisan make:model ModelName</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q13', true)">
+                                <p class="font-medium">B) php artisan make:model ModelName -m</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q13', false)">
+                                <p class="font-medium">C) php artisan model:create ModelName</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q13', false)">
+                                <p class="font-medium">D) php artisan make:model ModelName --migration</p>
+                            </div>
+                        </div>
+                        <div class="q13-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>-m</code> or <code>--migration</code> flag.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 14 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q14">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 14: Which Eloquent method retrieves all records?</h3>
+                            <p class="text-gray-600 text-sm">Eloquent ORM</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q14', false)">
+                                <p class="font-medium">A) Model::fetch()</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q14', false)">
+                                <p class="font-medium">B) Model::getAll()</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q14', true)">
+                                <p class="font-medium">C) Model::all()</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q14', false)">
+                                <p class="font-medium">D) Model::findAll()</p>
+                            </div>
+                        </div>
+                        <div class="q14-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>Model::all()</code> to get all records.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 15 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q15">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 15: How do you define a one-to-many relationship in Eloquent?</h3>
+                            <p class="text-gray-600 text-sm">Relationships</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q15', false)">
+                                <p class="font-medium">A) return $this->hasOne(Model::class);</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q15', true)">
+                                <p class="font-medium">B) return $this->hasMany(Model::class);</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q15', false)">
+                                <p class="font-medium">C) return $this->belongsToMany(Model::class);</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q15', false)">
+                                <p class="font-medium">D) return $this->morphOne(Model::class);</p>
+                            </div>
+                        </div>
+                        <div class="q15-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>hasMany()</code> for one-to-many relationships.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 2 Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            Day 2 Quiz Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">You've completed the Database & Eloquent quiz!</p>
+                        <button onclick="showDay(3)" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Continue to Day 3 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 3: Advanced Laravel Quiz -->
+            <section id="day-3" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-green-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">3</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">Advanced Laravel Quiz</h2>
+                                <p class="text-green-100">Test your knowledge of authentication, API, and advanced features</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 16 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q16">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 16: Which package provides authentication in Laravel?</h3>
+                            <p class="text-gray-600 text-sm">Authentication</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q16', true)">
+                                <p class="font-medium">A) Laravel Breeze</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q16', false)">
+                                <p class="font-medium">B) Laravel Passport</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q16', false)">
+                                <p class="font-medium">C) Laravel Sanctum</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q16', false)">
+                                <p class="font-medium">D) Laravel Socialite</p>
+                            </div>
+                        </div>
+                        <div class="q16-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Laravel Breeze provides simple authentication scaffolding.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 17 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q17">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 17: What is the purpose of service providers in Laravel?</h3>
+                            <p class="text-gray-600 text-sm">Service Container</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q17', false)">
+                                <p class="font-medium">A) To serve static files</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q17', true)">
+                                <p class="font-medium">B) To register services and dependencies</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q17', false)">
+                                <p class="font-medium">C) To cache application data</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q17', false)">
+                                <p class="font-medium">D) To run background jobs</p>
+                            </div>
+                        </div>
+                        <div class="q17-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Service providers register services and dependencies.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 18 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q18">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 18: Which file contains environment configuration?</h3>
+                            <p class="text-gray-600 text-sm">Configuration</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q18', true)">
+                                <p class="font-medium">A) .env</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q18', false)">
+                                <p class="font-medium">B) config.php</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q18', false)">
+                                <p class="font-medium">C) .env.local</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q18', false)">
+                                <p class="font-medium">D) settings.json</p>
+                            </div>
+                        </div>
+                        <div class="q18-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> The <code>.env</code> file contains environment configuration.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 19 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q19">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 19: What is a Laravel Collection?</h3>
+                            <p class="text-gray-600 text-sm">Collections</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q19', false)">
+                                <p class="font-medium">A) A database table</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q19', false)">
+                                <p class="font-medium">B) A form input handler</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q19', false)">
+                                <p class="font-medium">C) A view component</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q19', true)">
+                                <p class="font-medium">D) An array wrapper with useful methods</p>
+                            </div>
+                        </div>
+                        <div class="q19-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Collections wrap arrays with powerful helper methods.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question 20 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden" id="q20">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Question 20: How do you rollback the last migration?</h3>
+                            <p class="text-gray-600 text-sm">Migrations</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q20', false)">
+                                <p class="font-medium">A) php artisan migrate:reset</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q20', false)">
+                                <p class="font-medium">B) php artisan migrate:undo</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q20', true)">
+                                <p class="font-medium">C) php artisan migrate:rollback</p>
+                            </div>
+                            <div class="quiz-option p-4 border-2 border-gray-200 rounded-lg" onclick="checkAnswer(this, 'q20', false)">
+                                <p class="font-medium">D) php artisan migrate:back</p>
+                            </div>
+                        </div>
+                        <div class="q20-feedback hidden px-6 pb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-green-800"><strong>Correct!</strong> Use <code>php artisan migrate:rollback</code>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="trophy" class="w-6 h-6"></i>
+                            Skill Test Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">Great job completing all the quiz questions! Now let's build the Sudoku project.</p>
+                        <button onclick="showDay(4)" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            Start Sudoku Project →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 4: Sudoku Project - Setup -->
+            <section id="day-4" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-orange-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">1</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">Sudoku Project - Setup & Database</h2>
+                                <p class="text-orange-100">Create Laravel 12.50 project and design the database</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 1: Install Laravel 12.50</h3>
+                            <p class="text-gray-600 mt-1">Create a new Laravel project for the Sudoku game.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash"># Install Laravel 12.50
+composer create-project laravel/laravel:12.50 sudoku_game
+cd sudoku_game
+
+# Start the server
+php artisan serve</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 2: Configure Database</h3>
+                            <p class="text-gray-600 mt-1">Set up MySQL database connection.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="file-path">.env</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn bg-orange-400" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sudoku_game
+DB_USERNAME=root
+DB_PASSWORD=</code></pre>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-amber-50">
+                            <p class="text-sm text-amber-800">Create database: <code>CREATE DATABASE sudoku_game;</code></p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 3: Create Database Migrations</h3>
+                            <p class="text-gray-600 mt-1">Create migrations for games and scores tables.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">php artisan make:migration create_games_table
+php artisan make:migration create_scores_table</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">database/migrations/xxxx_create_games_table.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('games', function (Blueprint $table) {
+            $table->id();
+            $table->string('puzzle'); // JSON encoded Sudoku puzzle
+            $table->string('solution'); // JSON encoded solution
+            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('easy');
+            $table->enum('status', ['in_progress', 'completed', 'abandoned'])->default('in_progress');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('games');
+    }
+};</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">database/migrations/xxxx_create_scores_table.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('scores', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->integer('time_seconds'); // Completion time in seconds
+            $table->integer('mistakes')->default(0);
+            $table->integer('hints_used')->default(0);
+            $table->enum('difficulty', ['easy', 'medium', 'hard']);
+            $table->integer('score_points'); // Calculated score
+            $table->timestamp('completed_at');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('scores');
+    }
+};</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">php artisan migrate</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 4: Create Models</h3>
+                            <p class="text-gray-600 mt-1">Create Game and Score Eloquent models.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">php artisan make:model Game
+php artisan make:model Score</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">app/Models/Game.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Game extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['puzzle', 'solution', 'difficulty', 'status', 'user_id'];
+
+    protected $casts = [
+        'puzzle' => 'array',
+        'solution' => 'array',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function calculateScore(int $timeSeconds, int $mistakes, int $hints): int
+    {
+        $baseScore = match($this->difficulty) {
+            'easy' => 100,
+            'medium' => 200,
+            'hard' => 300,
+        };
+
+        // Time bonus (faster = more points)
+        $timeBonus = max(0, 1000 - $timeSeconds);
+        
+        // Penalty for mistakes and hints
+        $penalty = ($mistakes * 10) + ($hints * 20);
+
+        return max(0, $baseScore + $timeBonus - $penalty);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">app/Models/Score.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Score extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['user_id', 'game_id', 'time_seconds', 'mistakes', 'hints_used', 'difficulty', 'score_points', 'completed_at'];
+
+    protected $casts = [
+        'completed_at' => 'datetime',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 4 Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            Day 1 Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">Database setup is complete! Let's build the game logic.</p>
+                        <button onclick="showDay(5)" class="mt-4 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                            Continue to Day 2 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 5: Sudoku Game Logic -->
+            <section id="day-5" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-red-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">2</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">Sudoku Game Logic & API</h2>
+                                <p class="text-red-100">Implement puzzle generation, validation, and game endpoints</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 1: Create Sudoku Generator Service</h3>
+                            <p class="text-gray-600 mt-1">Implement the Sudoku puzzle generation algorithm.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">mkdir -p app/Services</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">app/Services/SudokuService.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Services;
+
+class SudokuService
+{
+    private array $solution = [];
+    private array $puzzle = [];
+
+    public function generate(string $difficulty = 'easy'): array
+    {
+        // Generate a complete solved grid
+        $this->solution = $this->generateSolution();
+        
+        // Create puzzle by removing numbers based on difficulty
+        $this->puzzle = $this->createPuzzle($difficulty);
+        
+        return [
+            'puzzle' => $this->puzzle,
+            'solution' => $this->solution,
+            'difficulty' => $difficulty,
+        ];
+    }
+
+    private function generateSolution(): array
+    {
+        $grid = array_fill(0, 9, array_fill(0, 9, 0));
+        $this->solve($grid);
+        return $grid;
+    }
+
+    private function solve(array &$grid): bool
+    {
+        for ($row = 0; $row < 9; $row++) {
+            for ($col = 0; $col < 9; $col++) {
+                if ($grid[$row][$col] === 0) {
+                    $numbers = shuffle([1,2,3,4,5,6,7,8,9]) ? [1,2,3,4,5,6,7,8,9] : range(1, 9);
+                    foreach ($numbers as $num) {
+                        if ($this->isValid($grid, $row, $col, $num)) {
+                            $grid[$row][$col] = $num;
+                            if ($this->solve($grid)) {
+                                return true;
+                            }
+                            $grid[$row][$col] = 0;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private function isValid(array $grid, int $row, int $col, int $num): bool
+    {
+        // Check row
+        for ($x = 0; $x < 9; $x++) {
+            if ($grid[$row][$x] === $num) return false;
+        }
+        
+        // Check column
+        for ($x = 0; $x < 9; $x++) {
+            if ($grid[$x][$col] === $num) return false;
+        }
+        
+        // Check 3x3 box
+        $boxRow = floor($row / 3) * 3;
+        $boxCol = floor($col / 3) * 3;
+        for ($i = 0; $i < 3; $i++) {
+            for ($j = 0; $j < 3; $j++) {
+                if ($grid[$boxRow + $i][$boxCol + $j] === $num) return false;
+            }
+        }
+        
+        return true;
+    }
+
+    private function createPuzzle(string $difficulty): array
+    {
+        $puzzle = $this->solution;
+        $cellsToRemove = match($difficulty) {
+            'easy' => 35,
+            'medium' => 45,
+            'hard' => 55,
+        };
+        
+        $positions = [];
+        for ($i = 0; $i < 81; $i++) {
+            $positions[] = [(int)($i / 9), $i % 9];
+        }
+        shuffle($positions);
+        
+        for ($i = 0; $i < $cellsToRemove && $i < count($positions); $i++) {
+            [$row, $col] = $positions[$i];
+            $puzzle[$row][$col] = 0;
+        }
+        
+        return $puzzle;
+    }
+
+    public function validateMove(array $puzzle, int $row, int $col, int $value): bool
+    {
+        return $this->isValid($puzzle, $row, $col, $value);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 2: Create Game Controller</h3>
+                            <p class="text-gray-600 mt-1">Create controller for handling game actions.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">php artisan make:controller GameController</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">app/Http/Controllers/GameController.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Game;
+use App\Models\Score;
+use App\Services\SudokuService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class GameController extends Controller
+{
+    public function __construct(private SudokuService $sudoku)
+    {
+    }
+
+    public function start(Request $request)
+    {
+        $difficulty = $request->input('difficulty', 'easy');
+        
+        $gameData = $this->sudoku->generate($difficulty);
+        
+        $game = Game::create([
+            'puzzle' => $gameData['puzzle'],
+            'solution' => $gameData['solution'],
+            'difficulty' => $difficulty,
+            'status' => 'in_progress',
+            'user_id' => Auth::id(),
+        ]);
+
+        return response()->json([
+            'game_id' => $game->id,
+            'puzzle' => $game->puzzle,
+            'difficulty' => $game->difficulty,
+        ]);
+    }
+
+    public function validate(Request $request, Game $game)
+    {
+        $row = $request->input('row');
+        $col = $request->input('col');
+        $value = $request->input('value');
+        
+        $isValid = $this->sudoku->validateMove(
+            $game->puzzle, 
+            $row, 
+            $col, 
+            $value
+        );
+
+        // Update puzzle with the new value if valid
+        if ($isValid) {
+            $puzzle = $game->puzzle;
+            $puzzle[$row][$col] = $value;
+            $game->update(['puzzle' => $puzzle]);
+            
+            // Check if puzzle is complete
+            $isComplete = $this->isComplete($puzzle, $game->solution);
+            
+            if ($isComplete) {
+                $game->update(['status' => 'completed']);
+            }
+        }
+
+        return response()->json([
+            'valid' => $isValid,
+            'is_complete' => $isComplete ?? false,
+        ]);
+    }
+
+    public function complete(Request $request, Game $game)
+    {
+        $score = $game->calculateScore(
+            $request->input('time_seconds'),
+            $request->input('mistakes', 0),
+            $request->input('hints_used', 0)
+        );
+
+        Score::create([
+            'user_id' => Auth::id(),
+            'game_id' => $game->id,
+            'time_seconds' => $request->input('time_seconds'),
+            'mistakes' => $request->input('mistakes', 0),
+            'hints_used' => $request->input('hints_used', 0),
+            'difficulty' => $game->difficulty,
+            'score_points' => $score,
+            'completed_at' => now(),
+        ]);
+
+        $game->update(['status' => 'completed']);
+
+        return response()->json([
+            'score' => $score,
+            'message' => 'Congratulations! Game completed!',
+        ]);
+    }
+
+    private function isComplete(array $puzzle, array $solution): bool
+    {
+        for ($i = 0; $i < 9; $i++) {
+            for ($j = 0; $j < 9; $j++) {
+                if ($puzzle[$i][$j] !== $solution[$i][$j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 3: Define Routes</h3>
+                            <p class="text-gray-600 mt-1">Add game routes to web.php.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="file-path">routes/web.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+use App\Http\Controllers\GameController;
+use Illuminate\Support\Facades\Route;
+
+// Game routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/game/start', [GameController::class, 'start'])->name('game.start');
+    Route::post('/game/{game}/validate', [GameController::class, 'validate'])->name('game.validate');
+    Route::post('/game/{game}/complete', [GameController::class, 'complete'])->name('game.complete');
+    Route::get('/leaderboard', [ScoreController::class, 'index'])->name('leaderboard');
+});
+
+// Public routes
+Route::get('/', function () {
+    return view('sudoku');
+});
+</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 5 Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            Day 2 Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">Game logic is ready! Now let's create the UI and scoreboard.</p>
+                        <button onclick="showDay(6)" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                            Continue to Day 3 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DAY 6: Sudoku UI & Scoreboard -->
+            <section id="day-6" class="day-section">
+                <div class="max-w-4xl">
+                    <div class="bg-yellow-600 text-white rounded-2xl p-8 mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">3</span>
+                            <div>
+                                <h2 class="text-3xl font-bold">UI & Scoreboard</h2>
+                                <p class="text-yellow-100">Build the game interface and leaderboard</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 1: Create Scoreboard Controller</h3>
+                            <p class="text-gray-600 mt-1">Create controller for leaderboard functionality.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-bash">php artisan make:controller ScoreController</code></pre>
+                            </div>
+                        </div>
+                        <div class="bg-gray-400 mt-4">
+                            <div class="file-path">app/Http/Controllers/ScoreController.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Score;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class ScoreController extends Controller
+{
+    public function index(Request $request)
+    {
+        $difficulty = $request->input('difficulty', 'all');
+        
+        $query = Score::with('user')
+            ->select('scores.*', DB::raw('ROW_NUMBER() OVER (ORDER BY score_points DESC) as rank'))
+            ->orderByDesc('score_points');
+
+        if ($difficulty !== 'all') {
+            $query->where('difficulty', $difficulty);
+        }
+
+        $scores = $query->limit(100)->get();
+
+        // Get user stats
+        $userStats = Score::where('user_id', auth()->id())
+            ->when($difficulty !== 'all', fn($q) => $q->where('difficulty', $difficulty))
+            ->selectRaw('COUNT(*) as games_played')
+            ->selectRaw('AVG(score_points) as avg_score')
+            ->selectRaw('MAX(score_points) as best_score')
+            ->first();
+
+        return view('leaderboard', compact('scores', 'userStats', 'difficulty'));
+    }
+
+    public function userStats()
+    {
+        $stats = [
+            'total_games' => Score::where('user_id', auth()->id())->count(),
+            'total_score' => Score::where('user_id', auth()->id())->sum('score_points'),
+            'best_score' => Score::where('user_id', auth()->id())->max('score_points'),
+            'avg_time' => Score::where('user_id', auth()->id())->avg('time_seconds'),
+        ];
+
+        return response()->json($stats);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 2: Create Sudoku Game View</h3>
+                            <p class="text-gray-600 mt-1">Build the interactive game board with Tailwind CSS.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="file-path">resources/views/sudoku.blade.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">@extends('layouts.app')
+
+@section('title', 'Sudoku Game')
+
+@section('content')
+    &lt;div class="max-w-4xl mx-auto"&gt;
+        &lt;!-- Game Header --&gt;
+        &lt;div class="bg-white rounded-t-xl p-6 border-b"&gt;
+            &lt;div class="flex justify-between items-center"&gt;
+                &lt;div&gt;
+                    &lt;h1 class="text-3xl font-bold text-gray-900"&gt;Sudoku&lt;/h1&gt;
+                    &lt;p class="text-gray-600"&gt;Select difficulty and start playing!&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="flex gap-3"&gt;
+                    &lt;select id="difficulty" class="border rounded-lg px-4 py-2"&gt;
+                        &lt;option value="easy"&gt;Easy&lt;/option&gt;
+                        &lt;option value="medium"&gt;Medium&lt;/option&gt;
+                        &lt;option value="hard"&gt;Hard&lt;/option&gt;
+                    &lt;/select&gt;
+                    &lt;button onclick="startGame()" class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 font-medium"&gt;
+                        New Game
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Timer and Stats --&gt;
+        &lt;div id="game-stats" class="bg-gray-100 px-6 py-3 flex justify-around text-center hidden"&gt;
+            &lt;div&gt;
+                &lt;div class="text-2xl font-bold text-gray-900" id="timer"&gt;00:00&lt;/div&gt;
+                &lt;div class="text-xs text-gray-500"&gt;Time&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;div class="text-2xl font-bold text-red-600" id="mistakes"&gt;0&lt;/div&gt;
+                &lt;div class="text-xs text-gray-500"&gt;Mistakes&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;div class="text-2xl font-bold text-blue-600" id="hints"&gt;0&lt;/div&gt;
+                &lt;div class="text-xs text-gray-500"&gt;Hints&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Sudoku Board --&gt;
+        &lt;div class="bg-white p-6"&gt;
+            &lt;div id="sudoku-board" class="grid grid-cols-9 gap-0 border-2 border-gray-800 mx-auto max-w-md"&gt;
+                &lt;!-- Cells will be generated by JavaScript --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Number Pad --&gt;
+        &lt;div class="bg-white rounded-b-xl p-6 border-t"&gt;
+            &lt;div class="flex justify-center gap-2"&gt;
+                @for($i = 1; $i &lt;= 9; $&lt;button onclick="selectNumber({{ $i++)
+                    i }})" 
+                            class="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-lg font-bold text-xl"&gt;
+                        {{ $i }}
+                    &lt;/button&gt;
+                @endfor
+                &lt;button onclick="selectNumber(0)" class="w-12 h-12 bg-red-200 hover:bg-red-300 rounded-lg font-bold text-xl"&gt;
+                    ✕
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Leaderboard Link --&gt;
+        &lt;div class="mt-6 text-center"&gt;
+            &lt;a href="{{ route('leaderboard') }}" class="text-yellow-600 hover:text-yellow-700 font-medium"&gt;
+                View Leaderboard →
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        let currentGame = null;
+        let selectedCell = null;
+        let startTime = null;
+        let timerInterval = null;
+
+        function startGame() {
+            const difficulty = document.getElementById('difficulty').value;
+            
+            fetch('/game/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ difficulty })
+            })
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                currentGame = data;
+                renderBoard(data.puzzle);
+                startTimer();
+                document.getElementById('game-stats').classList.remove('hidden');
+            });
+        }
+
+        function renderBoard(puzzle) {
+            const board = document.getElementById('sudoku-board');
+            board.innerHTML = '';
+
+            for (let i = 0; i &lt; 9; i++) {
+                for (let j = 0; j &lt; 9; j++) {
+                    const cell = document.createElement('div');
+                    const value = puzzle[i][j];
+                    const isInitial = value !== 0;
+                    
+                    cell.className = `w-10 h-10 sm:w-12 sm:h-12 border flex items-center justify-center cursor-pointer 
+                        ${isInitial ? 'bg-gray-100 font-bold' : 'bg-white hover:bg-yellow-50'} 
+                        ${(j + 1) % 3 === 0 && j &lt; 8 ? 'border-r-2 border-gray-800' : 'border'}
+                        ${(i + 1) % 3 === 0 && i &lt; 8 ? 'border-b-2 border-gray-800' : 'border'}`;
+                    
+                    cell.textContent = value || '';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    
+                    if (!isInitial) {
+                        cell.onclick = () =&gt; selectCell(i, j);
+                    }
+                    
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function selectCell(row, col) {
+            if (selectedCell) {
+                selectedCell.classList.remove('bg-yellow-200');
+            }
+            selectedCell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+            selectedCell.classList.add('bg-yellow-200');
+        }
+
+        function selectNumber(num) {
+            if (!selectedCell) return;
+            
+            const row = selectedCell.dataset.row;
+            const col = selectedCell.dataset.col;
+
+            fetch(`/game/${currentGame.game_id}/validate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ row: parseInt(row), col: parseInt(col), value: num })
+            })
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                if (data.valid) {
+                    selectedCell.textContent = num || '';
+                    selectedCell.classList.remove('bg-yellow-200', 'bg-white');
+                    selectedCell.classList.add('bg-gray-100', 'font-bold');
+                    selectedCell = null;
+
+                    if (data.is_complete) {
+                        completeGame();
+                    }
+                } else {
+                    // Show wrong answer
+                    selectedCell.classList.add('bg-red-200');
+                    document.getElementById('mistakes').textContent = 
+                        parseInt(document.getElementById('mistakes').textContent) + 1;
+                }
+            });
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() =&gt; {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const secs = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function completeGame() {
+            clearInterval(timerInterval);
+            const timeSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const mistakes = parseInt(document.getElementById('mistakes').textContent);
+            const hints = parseInt(document.getElementById('hints').textContent);
+
+            fetch(`/game/${currentGame.game_id}/complete`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ time_seconds: timeSeconds, mistakes, hints_used: hints })
+            })
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                alert(`Congratulations! Score: ${data.score}`);
+            });
+        }
+    &lt;/script&gt;
+@endsection</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
+                        <div class="p-6 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">Step 3: Create Leaderboard View</h3>
+                            <p class="text-gray-600 mt-1">Display top scores with filtering by difficulty.</p>
+                        </div>
+                        <div class="bg-gray-400">
+                            <div class="file-path">resources/views/leaderboard.blade.php</div>
+                            <div class="code-block pl-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code class="language-php">@extends('layouts.app')
+
+@section('title', 'Leaderboard')
+
+@section('content')
+    &lt;div class="max-w-4xl mx-auto"&gt;
+        &lt;div class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl p-8 mb-8"&gt;
+            &lt;h1 class="text-3xl font-bold mb-2"&gt;Sudoku Leaderboard&lt;/h1&gt;
+            &lt;p class="opacity-90"&gt;Top players ranked by score&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Filters --&gt;
+        &lt;div class="bg-white rounded-lg shadow-sm p-4 mb-6"&gt;
+            &lt;div class="flex gap-4"&gt;
+                &lt;a href="{{ route('leaderboard', ['difficulty' =&gt; 'all']) }}" 
+                   class="px-4 py-2 rounded-lg {{ $difficulty === 'all' ? 'bg-yellow-500 text-white' : 'bg-gray-100' }}"&gt;
+                    All
+                &lt;/a&gt;
+                &lt;a href="{{ route('leaderboard', ['difficulty' =&gt; 'easy']) }}"
+                   class="px-4 py-2 rounded-lg {{ $difficulty === 'easy' ? 'bg-green-500 text-white' : 'bg-gray-100' }}"&gt;
+                    Easy
+                &lt;/a&gt;
+                &lt;a href="{{ route('leaderboard', ['difficulty' =&gt; 'medium']) }}"
+                   class="px-4 py-2 rounded-lg {{ $difficulty === 'medium' ? 'bg-yellow-500 text-white' : 'bg-gray-100' }}"&gt;
+                    Medium
+                &lt;/a&gt;
+                &lt;a href="{{ route('leaderboard', ['difficulty' =&gt; 'hard']) }}"
+                   class="px-4 py-2 rounded-lg {{ $difficulty === 'hard' ? 'bg-red-500 text-white' : 'bg-gray-100' }}"&gt;
+                    Hard
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Top 3 Podium --&gt;
+        @if($scores-&gt;count() &gt;= 3)
+        &lt;div class="grid grid-cols-3 gap-4 mb-8"&gt;
+            &lt;!-- Second Place --&gt;
+            &lt;div class="bg-gray-100 rounded-xl p-6 text-center order-1"&gt;
+                &lt;div class="text-4xl mb-2"&gt;🥈&lt;/div&gt;
+                &lt;div class="text-xl font-bold text-gray-700"&gt;{{ $scores[1]-&gt;user-&gt;name ?? 'Player' }}&lt;/div&gt;
+                &lt;div class="text-2xl font-bold text-gray-900"&gt;{{ $scores[1]-&gt;score_points }}&lt;/div&gt;
+                &lt;div class="text-sm text-gray-500"&gt;points&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- First Place --&gt;
+            &lt;div class="bg-yellow-100 rounded-xl p-6 text-center order-2 -mt-4"&gt;
+                &lt;div class="text-5xl mb-2"&gt;👑&lt;/div&gt;
+                &lt;div class="text-xl font-bold text-yellow-800"&gt;{{ $scores[0]-&gt;user-&gt;name ?? 'Player' }}&lt;/div&gt;
+                &lt;div class="text-3xl font-bold text-yellow-700"&gt;{{ $scores[0]-&gt;score_points }}&lt;/div&gt;
+                &lt;div class="text-sm text-yellow-600"&gt;points&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- Third Place --&gt;
+            &lt;div class="bg-orange-100 rounded-xl p-6 text-center order-3"&gt;
+                &lt;div class="text-4xl mb-2"&gt;🥉&lt;/div&gt;
+                &lt;div class="text-xl font-bold text-orange-700"&gt;{{ $scores[2]-&gt;user-&gt;name ?? 'Player' }}&lt;/div&gt;
+                &lt;div class="text-2xl font-bold text-orange-800"&gt;{{ $scores[2]-&gt;score_points }}&lt;/div&gt;
+                &lt;div class="text-sm text-orange-600"&gt;points&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        @endif
+
+        &lt;!-- Full Leaderboard Table --&gt;
+        &lt;div class="bg-white rounded-lg shadow-sm overflow-hidden"&gt;
+            &lt;table class="w-full"&gt;
+                &lt;thead class="bg-gray-50"&gt;
+                    &lt;tr&gt;
+                        &lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"&gt;Rank&lt;/th&gt;
+                        &lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"&gt;Player&lt;/th&gt;
+                        &lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"&gt;Score&lt;/th&gt;
+                        &lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"&gt;Time&lt;/th&gt;
+                        &lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"&gt;Difficulty&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody class="divide-y divide-gray-200"&gt;
+                    @foreach($scores as $index =&gt; $score)
+                    &lt;tr class="{{ $index &lt; 3 ? 'bg-yellow-50' : '' }}"&gt;
+                        &lt;td class="px-6 py-4 whitespace-nowrap"&gt;
+                            &lt;span class="text-lg font-bold {{ $index === 0 ? 'text-yellow-600' : ($index === 1 ? 'text-gray-500' : ($index === 2 ? 'text-orange-500' : 'text-gray-700')) }}"&gt;
+                                #{{ $index + 1 }}
+                            &lt;/span&gt;
+                        &lt;/td&gt;
+                        &lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;{{ $score-&gt;user-&gt;name ?? 'Anonymous' }}&lt;/td&gt;
+                        &lt;td class="px-6 py-4 whitespace-nowrap"&gt;
+                            &lt;span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-bold"&gt;
+                                {{ $score-&gt;score_points }}
+                            &lt;/span&gt;
+                        &lt;/td&gt;
+                        &lt;td class="px-6 py-4 whitespace-nowrap text-gray-600"&gt;
+                            {{ floor($score-&gt;time_seconds / 60) }}:{{ ($score-&gt;time_seconds % 60)-&gt;toString()-&gt;padStart(2, '0') }}
+                        &lt;/td&gt;
+                        &lt;td class="px-6 py-4 whitespace-nowrap"&gt;
+                            &lt;span class="px-2 py-1 rounded-full text-xs font-medium
+                                {{ $score-&gt;difficulty === 'easy' ? 'bg-green-100 text-green-800' : '' }}
+                                {{ $score-&gt;difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                {{ $score-&gt;difficulty === 'hard' ? 'bg-red-100 text-red-800' : '' }}"&gt;
+                                {{ ucfirst($score-&gt;difficulty) }}
+                            &lt;/span&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    @endforeach
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+@endsection</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Complete -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="font-bold text-green-900 flex items-center gap-2 mb-3">
+                            <i data-lucide="trophy" class="w-6 h-6"></i>
+                            Sudoku Project Complete! 🎉
+                        </h3>
+                        <p class="text-green-800">You've built a complete Sudoku game with Laravel!</p>
+                        <ul class="mt-4 space-y-2 text-green-700">
+                            <li>✅ Laravel 12.50 project setup</li>
+                            <li>✅ Database migrations & models</li>
+                            <li>✅ Sudoku puzzle generator algorithm</li>
+                            <li>✅ Game validation API</li>
+                            <li>✅ Interactive game UI with Tailwind CSS</li>
+                            <li>✅ Leaderboard with rankings</li>
+                            <li>✅ Time-based scoring system</li>
+                        </ul>
+                        <div class="mt-6 flex gap-4">
+                            <button onclick="showDay(0)" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                                Back to Overview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Quiz functionality
+        let score = 0;
+        let answered = 0;
+        const totalQuestions = 20;
+
+        function checkAnswer(element, questionId, isCorrect) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.pointerEvents = 'none';
+            });
+
+            element.classList.add('selected');
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                // Show correct answer
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            answered++;
+            document.getElementById('answered-questions').textContent = answered;
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('quiz-score').textContent = percentage + '%';
+            document.getElementById('progress-fill').style.width = percentage + '%';
+
+            // Show feedback
+            const feedback = document.querySelector('.' + questionId + '-feedback');
+            if (feedback) {
+                feedback.classList.remove('hidden');
+            }
+        }
+
+        // Navigation
+        function showDay(dayNum) {
+            document.querySelectorAll('.day-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.getElementById('day-' + dayNum).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector('.nav-link[data-day="' + dayNum + '"]');
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            window.scrollTo(0, 0);
+            lucide.createIcons();
+        }
+
+        // Copy code functionality
+        function copyCode(btn) {
+            const codeBlock = btn.nextElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Initialize
+        document.getElementById('total-questions').textContent = totalQuestions;
+    </script>
+</body>
+</html>

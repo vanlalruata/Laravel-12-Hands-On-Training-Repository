@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel 12 Todo List - Complete Hands-On Curriculum</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        html { scroll-behavior: smooth; }
-        .code-block { position: relative; }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .code-block {
+            position: relative;
+        }
+
         .copy-btn {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             padding: 4px 12px;
             border-radius: 4px;
@@ -27,13 +35,38 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .copy-btn:hover { background: rgba(255,255,255,0.2); }
-        .progress-bar { transition: width 0.3s ease; }
-        .day-section { display: none; }
-        .day-section.active { display: block; }
-        .nav-link.active { background: #4f46e5; color: white; }
-        .checkbox:checked + label { text-decoration: line-through; opacity: 0.6; }
-        pre { margin: 0 !important; border-radius: 8px; }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .day-section {
+            display: none;
+        }
+
+        .day-section.active {
+            display: block;
+        }
+
+        .nav-link.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .checkbox:checked+label {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        pre {
+            margin: 0 !important;
+            border-radius: 8px;
+        }
+
         .file-path {
             background: #1e1b4b;
             color: #c7d2fe;
@@ -45,6 +78,7 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <!-- Header -->
     <header class="bg-indigo-600 text-white sticky top-0 z-50 shadow-lg">
@@ -73,33 +107,45 @@
         <aside class="w-72 bg-white shadow-lg sticky top-[88px] h-[calc(100vh-88px)] overflow-y-auto">
             <div class="p-4">
                 <nav class="space-y-2">
-                    <button onclick="showDay(0)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-day="0">
+                    <button onclick="showDay(0)"
+                        class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors"
+                        data-day="0">
                         <i data-lucide="home" class="w-5 h-5"></i>
                         <span>Overview</span>
                     </button>
-                    
+
                     <div class="pt-2 border-t">
-                        <p class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Course Modules</p>
+                        <p class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Course Modules
+                        </p>
                     </div>
-                    
-                    <button onclick="showDay(1)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="1">
-                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+
+                    <button onclick="showDay(1)"
+                        class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100"
+                        data-day="1">
+                        <span
+                            class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
                         <div>
                             <div class="font-medium">Day 1</div>
                             <div class="text-xs text-gray-500">Laravel Fundamentals</div>
                         </div>
                     </button>
-                    
-                    <button onclick="showDay(2)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="2">
-                        <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+
+                    <button onclick="showDay(2)"
+                        class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100"
+                        data-day="2">
+                        <span
+                            class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
                         <div>
                             <div class="font-medium">Day 2</div>
                             <div class="text-xs text-gray-500">Database, Eloquent & Auth</div>
                         </div>
                     </button>
-                    
-                    <button onclick="showDay(3)" class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100" data-day="3">
-                        <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+
+                    <button onclick="showDay(3)"
+                        class="nav-link w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-gray-100"
+                        data-day="3">
+                        <span
+                            class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
                         <div>
                             <div class="font-medium">Day 3</div>
                             <div class="text-xs text-gray-500">Advanced Features</div>
@@ -130,7 +176,9 @@
                 <div class="max-w-4xl">
                     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl p-8 mb-8">
                         <h2 class="text-3xl font-bold mb-4">Laravel 12 Todo List Masterclass</h2>
-                        <p class="text-lg opacity-90 mb-6">Build a complete, production-ready Todo List application using Laravel 12, complete with authentication, relationships, search, pagination, and beautiful Tailwind CSS styling.</p>
+                        <p class="text-lg opacity-90 mb-6">Build a complete, production-ready Todo List application
+                            using Laravel 12, complete with authentication, relationships, search, pagination, and
+                            beautiful Tailwind CSS styling.</p>
                         <div class="flex gap-4 flex-wrap">
                             <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Laravel 12.40</span>
                             <span class="bg-white/20 px-3 py-1 rounded-full text-sm">PHP 8.2+</span>
@@ -140,15 +188,18 @@
                     </div>
 
                     <!-- Instructor Card -->
-                    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-6 mb-8">
+                    <div
+                        class="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-6 mb-8">
                         <div class="flex items-center gap-4">
-                            <div class="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold">
+                            <div
+                                class="bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold">
                                 VH
                             </div>
                             <div>
                                 <h3 class="font-bold text-xl text-gray-900">Dr. Vanlalruata Hnamte</h3>
                                 <p class="text-indigo-600 font-medium">Instructor</p>
-                                <p class="text-gray-600 text-sm mt-1">Freelancer Software Developer • Educator • Researcher</p>
+                                <p class="text-gray-600 text-sm mt-1">Freelancer Software Developer • Educator •
+                                    Researcher</p>
                             </div>
                         </div>
                     </div>
@@ -162,11 +213,16 @@
                                 <h3 class="font-bold text-lg">What You'll Build</h3>
                             </div>
                             <ul class="space-y-2 text-gray-600">
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Full CRUD Todo management</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> User authentication system</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Categories & priorities</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Search & filter functionality</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Responsive Tailwind UI</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Full CRUD Todo management</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> User authentication system</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Categories & priorities</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Search & filter functionality</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Responsive Tailwind UI</li>
                             </ul>
                         </div>
 
@@ -178,11 +234,16 @@
                                 <h3 class="font-bold text-lg">What You'll Learn</h3>
                             </div>
                             <ul class="space-y-2 text-gray-600">
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Laravel 12 MVC architecture</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Eloquent ORM & relationships</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Middleware & authorization</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Form validation & error handling</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Database migrations & seeders</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Laravel 12 MVC architecture</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Eloquent ORM & relationships</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Middleware & authorization</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Form validation & error handling</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check"
+                                        class="w-4 h-4 text-green-500"></i> Database migrations & seeders</li>
                             </ul>
                         </div>
                     </div>
@@ -229,7 +290,8 @@
                     </div>
 
                     <div class="text-center">
-                        <button onclick="showDay(1)" class="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 mx-auto">
+                        <button onclick="showDay(1)"
+                            class="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 mx-auto">
                             Start Learning
                             <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </button>
@@ -242,10 +304,12 @@
                 <div class="max-w-4xl">
                     <div class="bg-blue-600 text-white rounded-2xl p-8 mb-8">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">1</span>
+                            <span
+                                class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">1</span>
                             <div>
                                 <h2 class="text-3xl font-bold">Laravel 12 Fundamentals & MVC</h2>
-                                <p class="text-blue-100">Installation, directory structure, routing, controllers, and Blade basics</p>
+                                <p class="text-blue-100">Installation, directory structure, routing, controllers, and
+                                    Blade basics</p>
                             </div>
                         </div>
                     </div>
@@ -254,10 +318,13 @@
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-1" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-1" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1: Install Laravel Installer</label>
-                                    <p class="text-gray-600 mt-1">Install the Laravel Installer globally using Composer. This is a one-time setup.</p>
+                                    <label for="step-1-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1:
+                                        Install Laravel Installer</label>
+                                    <p class="text-gray-600 mt-1">Install the Laravel Installer globally using Composer.
+                                        This is a one-time setup.</p>
                                 </div>
                             </div>
                         </div>
@@ -281,10 +348,13 @@
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-2" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-2" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2: Create New Laravel 12 Project</label>
-                                    <p class="text-gray-600 mt-1">Create a new Laravel project named "laravel_todo" and start the development server.</p>
+                                    <label for="step-1-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2:
+                                        Create New Laravel 12 Project</label>
+                                    <p class="text-gray-600 mt-1">Create a new Laravel project named "laravel_todo" and
+                                        start the development server.</p>
                                 </div>
                             </div>
                         </div>
@@ -302,20 +372,30 @@ php artisan serve</code></pre>
                                 <div class="text-green-400">laravel_todo/</div>
                                 <div class="ml-4">├── <span class="text-blue-400">app/</span></div>
                                 <div class="ml-8">├── <span class="text-yellow-400">Http/</span></div>
-                                <div class="ml-12">├── <span class="text-white">Controllers/</span> <span class="text-gray-500"># Controllers</span></div>
-                                <div class="ml-8">├── <span class="text-yellow-400">Models/</span> <span class="text-gray-500"># Eloquent Models</span></div>
+                                <div class="ml-12">├── <span class="text-white">Controllers/</span> <span
+                                        class="text-gray-500"># Controllers</span></div>
+                                <div class="ml-8">├── <span class="text-yellow-400">Models/</span> <span
+                                        class="text-gray-500"># Eloquent Models</span></div>
                                 <div class="ml-4">├── <span class="text-blue-400">bootstrap/</span></div>
-                                <div class="ml-8">├── <span class="text-white">app.php</span> <span class="text-gray-500"># App bootstrap</span></div>
-                                <div class="ml-4">├── <span class="text-blue-400">config/</span> <span class="text-gray-500"># Configuration files</span></div>
+                                <div class="ml-8">├── <span class="text-white">app.php</span> <span
+                                        class="text-gray-500"># App bootstrap</span></div>
+                                <div class="ml-4">├── <span class="text-blue-400">config/</span> <span
+                                        class="text-gray-500"># Configuration files</span></div>
                                 <div class="ml-4">├── <span class="text-blue-400">database/</span></div>
-                                <div class="ml-8">├── <span class="text-yellow-400">migrations/</span> <span class="text-gray-500"># Database migrations</span></div>
-                                <div class="ml-8">├── <span class="text-yellow-400">seeders/</span> <span class="text-gray-500"># Database seeders</span></div>
+                                <div class="ml-8">├── <span class="text-yellow-400">migrations/</span> <span
+                                        class="text-gray-500"># Database migrations</span></div>
+                                <div class="ml-8">├── <span class="text-yellow-400">seeders/</span> <span
+                                        class="text-gray-500"># Database seeders</span></div>
                                 <div class="ml-4">├── <span class="text-blue-400">resources/</span></div>
-                                <div class="ml-8">├── <span class="text-yellow-400">views/</span> <span class="text-gray-500"># Blade templates</span></div>
+                                <div class="ml-8">├── <span class="text-yellow-400">views/</span> <span
+                                        class="text-gray-500"># Blade templates</span></div>
                                 <div class="ml-4">├── <span class="text-blue-400">routes/</span></div>
-                                <div class="ml-8">├── <span class="text-white">web.php</span> <span class="text-gray-500"># Web routes</span></div>
-                                <div class="ml-8">├── <span class="text-white">api.php</span> <span class="text-gray-500"># API routes</span></div>
-                                <div class="ml-4">└── <span class="text-white">.env</span> <span class="text-gray-500"># Environment variables</span></div>
+                                <div class="ml-8">├── <span class="text-white">web.php</span> <span
+                                        class="text-gray-500"># Web routes</span></div>
+                                <div class="ml-8">├── <span class="text-white">api.php</span> <span
+                                        class="text-gray-500"># API routes</span></div>
+                                <div class="ml-4">└── <span class="text-white">.env</span> <span class="text-gray-500">#
+                                        Environment variables</span></div>
                             </div>
                         </div>
                     </div>
@@ -324,10 +404,13 @@ php artisan serve</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-3" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-3" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3: Basic Routing</label>
-                                    <p class="text-gray-600 mt-1">Create your first route in Laravel 12. Routes define the entry points to your application.</p>
+                                    <label for="step-1-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3:
+                                        Basic Routing</label>
+                                    <p class="text-gray-600 mt-1">Create your first route in Laravel 12. Routes define
+                                        the entry points to your application.</p>
                                 </div>
                             </div>
                         </div>
@@ -366,7 +449,9 @@ Route::get('/greet/{name?}', function ($name = 'Guest') {
                             </div>
                         </div>
                         <div class="p-4 bg-blue-50">
-                            <p class="text-sm text-blue-800"><strong>Test:</strong> Visit <code class="bg-blue-100 px-1 rounded">http://localhost:8000/</code> and <code class="bg-blue-100 px-1 rounded">http://localhost:8000/hello/John</code></p>
+                            <p class="text-sm text-blue-800"><strong>Test:</strong> Visit <code
+                                    class="bg-blue-100 px-1 rounded">http://localhost:8000/</code> and <code
+                                    class="bg-blue-100 px-1 rounded">http://localhost:8000/hello/John</code></p>
                         </div>
                     </div>
 
@@ -374,19 +459,24 @@ Route::get('/greet/{name?}', function ($name = 'Guest') {
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-4" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-4" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4: Tailwind CSS Setup - CDN vs Build</label>
-                                    <p class="text-gray-600 mt-1">Learn both CDN (quick start) and Build (production) approaches for Tailwind CSS in Laravel 12.</p>
+                                    <label for="step-1-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4:
+                                        Tailwind CSS Setup - CDN vs Build</label>
+                                    <p class="text-gray-600 mt-1">Learn both CDN (quick start) and Build (production)
+                                        approaches for Tailwind CSS in Laravel 12.</p>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="p-6 bg-indigo-50">
-                            <h4 class="font-semibold text-indigo-900 mb-3">Option 1: CDN (Quick Start - For Learning)</h4>
-                            <p class="text-sm text-indigo-700 mb-3">Use this for rapid prototyping and learning. No build step required!</p>
+                            <h4 class="font-semibold text-indigo-900 mb-3">Option 1: CDN (Quick Start - For Learning)
+                            </h4>
+                            <p class="text-sm text-indigo-700 mb-3">Use this for rapid prototyping and learning. No
+                                build step required!</p>
                         </div>
-                        
+
                         <div class="bg-gray-900">
                             <div class="file-path">resources/views/layouts/app.blade.php (CDN Version)</div>
                             <div class="code-block">
@@ -469,8 +559,10 @@ Route::get('/greet/{name?}', function ($name = 'Guest') {
                         </div>
 
                         <div class="p-6 bg-green-50 mt-6">
-                            <h4 class="font-semibold text-green-900 mb-3">Option 2: Build Process (Production - Recommended)</h4>
-                            <p class="text-sm text-green-700 mb-3">Use this for production. Smaller bundle size, purged unused styles, custom plugins.</p>
+                            <h4 class="font-semibold text-green-900 mb-3">Option 2: Build Process (Production -
+                                Recommended)</h4>
+                            <p class="text-sm text-green-700 mb-3">Use this for production. Smaller bundle size, purged
+                                unused styles, custom plugins.</p>
                         </div>
 
                         <div class="bg-gray-900">
@@ -721,9 +813,12 @@ npm run build</code></pre>
                         <div class="p-4 bg-blue-50 mt-4">
                             <p class="text-sm text-blue-800"><strong>Key Tailwind Concepts:</strong></p>
                             <ul class="text-sm text-blue-700 mt-2 list-disc list-inside space-y-1">
-                                <li><strong>Utility-first:</strong> Build designs directly in HTML with pre-defined classes</li>
-                                <li><strong>Responsive:</strong> Use prefixes like <code>md:</code>, <code>lg:</code> for breakpoints</li>
-                                <li><strong>Hover/Focus:</strong> Use <code>hover:</code>, <code>focus:</code> prefixes for states</li>
+                                <li><strong>Utility-first:</strong> Build designs directly in HTML with pre-defined
+                                    classes</li>
+                                <li><strong>Responsive:</strong> Use prefixes like <code>md:</code>, <code>lg:</code>
+                                    for breakpoints</li>
+                                <li><strong>Hover/Focus:</strong> Use <code>hover:</code>, <code>focus:</code> prefixes
+                                    for states</li>
                                 <li><strong>Dark mode:</strong> Use <code>dark:</code> prefix for dark mode styles</li>
                                 <li><code>@apply</code>: Extract repeated utility patterns to reusable components</li>
                             </ul>
@@ -733,10 +828,13 @@ npm run build</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-5" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-5" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5: Create Todo Views</label>
-                                    <p class="text-gray-600 mt-1">Create organized view directories and your first Blade templates.</p>
+                                    <label for="step-1-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5:
+                                        Create Todo Views</label>
+                                    <p class="text-gray-600 mt-1">Create organized view directories and your first Blade
+                                        templates.</p>
                                 </div>
                             </div>
                         </div>
@@ -793,10 +891,13 @@ mkdir resources/views/components</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-1-5" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-1-5" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-1-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5: Create TodoController</label>
-                                    <p class="text-gray-600 mt-1">Generate a controller using Artisan and define the index method to return the view.</p>
+                                    <label for="step-1-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5:
+                                        Create TodoController</label>
+                                    <p class="text-gray-600 mt-1">Generate a controller using Artisan and define the
+                                        index method to return the view.</p>
                                 </div>
                             </div>
                         </div>
@@ -1013,7 +1114,8 @@ Route::delete('/todos/{id}', [TodoController::class, 'destroy'])->name('todos.de
                             <li>✅ Passing data to views</li>
                             <li>✅ Tailwind CSS styling</li>
                         </ul>
-                        <button onclick="showDay(2)" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        <button onclick="showDay(2)"
+                            class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
                             Continue to Day 2 →
                         </button>
                     </div>
@@ -1025,10 +1127,12 @@ Route::delete('/todos/{id}', [TodoController::class, 'destroy'])->name('todos.de
                 <div class="max-w-4xl">
                     <div class="bg-green-600 text-white rounded-2xl p-8 mb-8">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">2</span>
+                            <span
+                                class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">2</span>
                             <div>
                                 <h2 class="text-3xl font-bold">Database, Eloquent ORM & CRUD</h2>
-                                <p class="text-green-100">Migrations, models, database operations, and full CRUD implementation</p>
+                                <p class="text-green-100">Migrations, models, database operations, and full CRUD
+                                    implementation</p>
                             </div>
                         </div>
                     </div>
@@ -1037,10 +1141,13 @@ Route::delete('/todos/{id}', [TodoController::class, 'destroy'])->name('todos.de
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-1" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-1" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1: Configure Database</label>
-                                    <p class="text-gray-600 mt-1">Set up your MySQL database connection in the .env file.</p>
+                                    <label for="step-2-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1:
+                                        Configure Database</label>
+                                    <p class="text-gray-600 mt-1">Set up your MySQL database connection in the .env
+                                        file.</p>
                                 </div>
                             </div>
                         </div>
@@ -1057,7 +1164,8 @@ DB_PASSWORD=</code></pre>
                             </div>
                         </div>
                         <div class="p-4 bg-amber-50">
-                            <p class="text-sm text-amber-800"><strong>Note:</strong> Create the database first: <code class="bg-amber-100 px-1 rounded">CREATE DATABASE laravel_todo;</code></p>
+                            <p class="text-sm text-amber-800"><strong>Note:</strong> Create the database first: <code
+                                    class="bg-amber-100 px-1 rounded">CREATE DATABASE laravel_todo;</code></p>
                         </div>
                     </div>
 
@@ -1065,10 +1173,13 @@ DB_PASSWORD=</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-2" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-2" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2: Create Todo Model & Migration</label>
-                                    <p class="text-gray-600 mt-1">Generate the Todo model with a migration file using the -m flag.</p>
+                                    <label for="step-2-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2:
+                                        Create Todo Model & Migration</label>
+                                    <p class="text-gray-600 mt-1">Generate the Todo model with a migration file using
+                                        the -m flag.</p>
                                 </div>
                             </div>
                         </div>
@@ -1241,10 +1352,13 @@ class Todo extends Model
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-3" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-3" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3: Create TodoFactory and Seeder</label>
-                                    <p class="text-gray-600 mt-1">Generate sample data for testing using factories and seeders.</p>
+                                    <label for="step-2-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3:
+                                        Create TodoFactory and Seeder</label>
+                                    <p class="text-gray-600 mt-1">Generate sample data for testing using factories and
+                                        seeders.</p>
                                 </div>
                             </div>
                         </div>
@@ -1402,10 +1516,13 @@ class DatabaseSeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-4" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-4" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4: Implement CREATE Operation</label>
-                                    <p class="text-gray-600 mt-1">Build the form and store method to create new todos with validation.</p>
+                                    <label for="step-2-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4:
+                                        Implement CREATE Operation</label>
+                                    <p class="text-gray-600 mt-1">Build the form and store method to create new todos
+                                        with validation.</p>
                                 </div>
                             </div>
                         </div>
@@ -1560,10 +1677,13 @@ class DatabaseSeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-5" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-5" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5: Implement READ with Pagination</label>
-                                    <p class="text-gray-600 mt-1">Update the index method to fetch from database and add pagination.</p>
+                                    <label for="step-2-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5:
+                                        Implement READ with Pagination</label>
+                                    <p class="text-gray-600 mt-1">Update the index method to fetch from database and add
+                                        pagination.</p>
                                 </div>
                             </div>
                         </div>
@@ -1787,10 +1907,13 @@ class DatabaseSeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-6" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-6" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-6" class="text-xl font-bold text-gray-900 cursor-pointer">Step 6: Implement UPDATE Operation</label>
-                                    <p class="text-gray-600 mt-1">Build the edit form and update method with validation.</p>
+                                    <label for="step-2-6" class="text-xl font-bold text-gray-900 cursor-pointer">Step 6:
+                                        Implement UPDATE Operation</label>
+                                    <p class="text-gray-600 mt-1">Build the edit form and update method with validation.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1956,15 +2079,19 @@ class DatabaseSeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-2-7" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-2-7" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-2-7" class="text-xl font-bold text-gray-900 cursor-pointer">Step 7: Implement DELETE and Toggle</label>
-                                    <p class="text-gray-600 mt-1">Add the destroy method and a toggle status feature.</p>
+                                    <label for="step-2-7" class="text-xl font-bold text-gray-900 cursor-pointer">Step 7:
+                                        Implement DELETE and Toggle</label>
+                                    <p class="text-gray-600 mt-1">Add the destroy method and a toggle status feature.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-gray-900">
-                            <div class="file-path">app/Http/Controllers/TodoController.php (Updated destroy method)</div>
+                            <div class="file-path">app/Http/Controllers/TodoController.php (Updated destroy method)
+                            </div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                                 <pre><code class="language-php">    /**
@@ -2034,7 +2161,8 @@ Route::resource('todos', TodoController::class);</code></pre>
                             <li>✅ Model scopes for reusable queries</li>
                             <li>✅ Flash messages for user feedback</li>
                         </ul>
-                        <button onclick="showDay(3)" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        <button onclick="showDay(3)"
+                            class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
                             Continue to Day 3 →
                         </button>
                     </div>
@@ -2046,10 +2174,12 @@ Route::resource('todos', TodoController::class);</code></pre>
                 <div class="max-w-4xl">
                     <div class="bg-purple-600 text-white rounded-2xl p-8 mb-8">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">3</span>
+                            <span
+                                class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">3</span>
                             <div>
                                 <h2 class="text-3xl font-bold">Authentication & User Relationships</h2>
-                                <p class="text-purple-100">Laravel Breeze, user auth, middleware, and user-todo relationships</p>
+                                <p class="text-purple-100">Laravel Breeze, user auth, middleware, and user-todo
+                                    relationships</p>
                             </div>
                         </div>
                     </div>
@@ -2058,10 +2188,13 @@ Route::resource('todos', TodoController::class);</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-1" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-1" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1: Install Laravel Breeze</label>
-                                    <p class="text-gray-600 mt-1">Install Breeze for a complete authentication scaffolding with Tailwind CSS.</p>
+                                    <label for="step-3-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1:
+                                        Install Laravel Breeze</label>
+                                    <p class="text-gray-600 mt-1">Install Breeze for a complete authentication
+                                        scaffolding with Tailwind CSS.</p>
                                 </div>
                             </div>
                         </div>
@@ -2091,10 +2224,13 @@ php artisan migrate</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-2" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-2" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2: Update User Model with Todo Relationship</label>
-                                    <p class="text-gray-600 mt-1">Add the hasMany relationship to link users with their todos.</p>
+                                    <label for="step-3-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2:
+                                        Update User Model with Todo Relationship</label>
+                                    <p class="text-gray-600 mt-1">Add the hasMany relationship to link users with their
+                                        todos.</p>
                                 </div>
                             </div>
                         </div>
@@ -2181,22 +2317,26 @@ class User extends Authenticatable
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-3" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-3" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3: Update Todo Model to Require User</label>
+                                    <label for="step-3-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3:
+                                        Update Todo Model to Require User</label>
                                     <p class="text-gray-600 mt-1">Make user_id required and update the relationship.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-gray-900">
-                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_update_todos_user_id.php (New Migration)</div>
+                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_update_todos_user_id.php (New
+                                Migration)</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                                 <pre><code class="language-bash">php artisan make:migration update_todos_make_user_id_required</code></pre>
                             </div>
                         </div>
                         <div class="bg-gray-900 mt-4">
-                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_update_todos_make_user_id_required.php</div>
+                            <div class="file-path">
+                                database/migrations/xxxx_xx_xx_xxxxxx_update_todos_make_user_id_required.php</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                                 <pre><code class="language-php">&lt;?php
@@ -2241,10 +2381,13 @@ return new class extends Migration
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-4" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-4" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4: Protect Routes with Auth Middleware</label>
-                                    <p class="text-gray-600 mt-1">Require authentication for all todo operations and filter by authenticated user.</p>
+                                    <label for="step-3-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4:
+                                        Protect Routes with Auth Middleware</label>
+                                    <p class="text-gray-600 mt-1">Require authentication for all todo operations and
+                                        filter by authenticated user.</p>
                                 </div>
                             </div>
                         </div>
@@ -2308,10 +2451,13 @@ require __DIR__.'/auth.php';</code></pre>
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-5" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-5" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5: Update TodoController with User Scoping</label>
-                                    <p class="text-gray-600 mt-1">Filter all queries to only show todos belonging to the authenticated user.</p>
+                                    <label for="step-3-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5:
+                                        Update TodoController with User Scoping</label>
+                                    <p class="text-gray-600 mt-1">Filter all queries to only show todos belonging to the
+                                        authenticated user.</p>
                                 </div>
                             </div>
                         </div>
@@ -2504,10 +2650,13 @@ class TodoController extends Controller
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-6" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-6" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-6" class="text-xl font-bold text-gray-900 cursor-pointer">Step 6: Create Enhanced Dashboard View</label>
-                                    <p class="text-gray-600 mt-1">Build a beautiful dashboard showing user's todo statistics and recent activity.</p>
+                                    <label for="step-3-6" class="text-xl font-bold text-gray-900 cursor-pointer">Step 6:
+                                        Create Enhanced Dashboard View</label>
+                                    <p class="text-gray-600 mt-1">Build a beautiful dashboard showing user's todo
+                                        statistics and recent activity.</p>
                                 </div>
                             </div>
                         </div>
@@ -2675,9 +2824,11 @@ class TodoController extends Controller
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-3-7" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-3-7" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-3-7" class="text-xl font-bold text-gray-900 cursor-pointer">Step 7: Add Search to Todo Index</label>
+                                    <label for="step-3-7" class="text-xl font-bold text-gray-900 cursor-pointer">Step 7:
+                                        Add Search to Todo Index</label>
                                     <p class="text-gray-600 mt-1">Enhance the todo list with a search feature.</p>
                                 </div>
                             </div>
@@ -2737,7 +2888,8 @@ class TodoController extends Controller
                             <li>✅ Dashboard with statistics</li>
                             <li>✅ Search functionality</li>
                         </ul>
-                        <button onclick="showDay(4)" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        <button onclick="showDay(4)"
+                            class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
                             Congratulations → We move to little advanced features.
                         </button>
                     </div>
@@ -2749,10 +2901,12 @@ class TodoController extends Controller
                 <div class="max-w-4xl">
                     <div class="bg-orange-600 text-white rounded-2xl p-8 mb-8">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">4</span>
+                            <span
+                                class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold">4</span>
                             <div>
                                 <h2 class="text-3xl font-bold">Advanced Features & Polish</h2>
-                                <p class="text-orange-100">Categories, bulk actions, email notifications, and final touches</p>
+                                <p class="text-orange-100">Categories, bulk actions, email notifications, and final
+                                    touches</p>
                             </div>
                         </div>
                     </div>
@@ -2761,10 +2915,13 @@ class TodoController extends Controller
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-4-1" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-4-1" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-4-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1: Create Categories System</label>
-                                    <p class="text-gray-600 mt-1">Add a Category model and establish relationships for organizing todos.</p>
+                                    <label for="step-4-1" class="text-xl font-bold text-gray-900 cursor-pointer">Step 1:
+                                        Create Categories System</label>
+                                    <p class="text-gray-600 mt-1">Add a Category model and establish relationships for
+                                        organizing todos.</p>
                                 </div>
                             </div>
                         </div>
@@ -2776,7 +2933,8 @@ php artisan make:migration add_category_id_to_todos_table</code></pre>
                             </div>
                         </div>
                         <div class="bg-gray-900 mt-4">
-                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_create_categories_table.php</div>
+                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_create_categories_table.php
+                            </div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                                 <pre><code class="language-php">&lt;?php
@@ -2807,7 +2965,8 @@ return new class extends Migration
                             </div>
                         </div>
                         <div class="bg-gray-900 mt-4">
-                            <div class="file-path">database/migrations/xxxx_xx_xx_xxxxxx_add_category_id_to_todos_table.php</div>
+                            <div class="file-path">
+                                database/migrations/xxxx_xx_xx_xxxxxx_add_category_id_to_todos_table.php</div>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                                 <pre><code class="language-php">&lt;?php
@@ -2918,9 +3077,11 @@ class Category extends Model
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-4-2" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-4-2" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-4-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2: Create Category Seeder</label>
+                                    <label for="step-4-2" class="text-xl font-bold text-gray-900 cursor-pointer">Step 2:
+                                        Create Category Seeder</label>
                                     <p class="text-gray-600 mt-1">Add default categories for testing.</p>
                                 </div>
                             </div>
@@ -2996,9 +3157,11 @@ class CategorySeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-4-3" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-4-3" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-4-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3: Update Forms with Category Selection</label>
+                                    <label for="step-4-3" class="text-xl font-bold text-gray-900 cursor-pointer">Step 3:
+                                        Update Forms with Category Selection</label>
                                     <p class="text-gray-600 mt-1">Add category dropdown to create and edit forms.</p>
                                 </div>
                             </div>
@@ -3060,9 +3223,11 @@ class CategorySeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-4-4" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-4-4" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-4-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4: Display Categories in Todo List</label>
+                                    <label for="step-4-4" class="text-xl font-bold text-gray-900 cursor-pointer">Step 4:
+                                        Display Categories in Todo List</label>
                                     <p class="text-gray-600 mt-1">Show category badges and filter by category.</p>
                                 </div>
                             </div>
@@ -3097,16 +3262,19 @@ class CategorySeeder extends Seeder
                     <div class="bg-white rounded-xl shadow-sm border mb-6 overflow-hidden">
                         <div class="p-6 border-b">
                             <div class="flex items-start gap-4">
-                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded" id="step-4-5" onchange="updateProgress()">
+                                <input type="checkbox" class="checkbox w-5 h-5 mt-1 text-indigo-600 rounded"
+                                    id="step-4-5" onchange="updateProgress()">
                                 <div class="flex-1">
-                                    <label for="step-4-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5: Course Complete!</label>
+                                    <label for="step-4-5" class="text-xl font-bold text-gray-900 cursor-pointer">Step 5:
+                                        Course Complete!</label>
                                     <p class="text-gray-600 mt-1">Review what you've built and next steps.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
                             <h3 class="font-bold text-gray-900 text-xl mb-4">🎉 Congratulations!</h3>
-                            <p class="text-gray-600 mb-4">You've built a complete Laravel 12 Todo List application with:</p>
+                            <p class="text-gray-600 mb-4">You've built a complete Laravel 12 Todo List application with:
+                            </p>
                             <div class="grid md:grid-cols-2 gap-4 mb-6">
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <h4 class="font-semibold text-gray-900 mb-2">Core Features</h4>
@@ -3158,7 +3326,8 @@ class CategorySeeder extends Seeder
                             <li>✅ Ready to deploy!</li>
                         </ul>
                         <div class="mt-6 flex gap-4">
-                            <button onclick="showDay(0)" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            <button onclick="showDay(0)"
+                                class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                                 Back to Overview
                             </button>
                         </div>
@@ -3177,7 +3346,7 @@ class CategorySeeder extends Seeder
             const checkboxes = document.querySelectorAll('.checkbox');
             const checked = document.querySelectorAll('.checkbox:checked');
             const percentage = Math.round((checked.length / checkboxes.length) * 100);
-            
+
             document.getElementById('overall-progress').textContent = percentage + '%';
             document.getElementById('progress-fill').style.width = percentage + '%';
             document.getElementById('completed-steps').textContent = checked.length;
@@ -3189,19 +3358,19 @@ class CategorySeeder extends Seeder
             document.querySelectorAll('.day-section').forEach(section => {
                 section.classList.remove('active');
             });
-            
+
             // Show selected section
             document.getElementById('day-' + dayNum).classList.add('active');
-            
+
             // Update nav styling
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
             document.querySelector('.nav-link[data-day="' + dayNum + '"]').classList.add('active');
-            
+
             // Scroll to top
             window.scrollTo(0, 0);
-            
+
             // Re-initialize icons
             lucide.createIcons();
         }
@@ -3210,12 +3379,12 @@ class CategorySeeder extends Seeder
         function copyCode(btn) {
             const codeBlock = btn.nextElementSibling;
             const code = codeBlock.textContent;
-            
+
             navigator.clipboard.writeText(code).then(() => {
                 const original = btn.textContent;
                 btn.textContent = 'Copied!';
                 btn.style.background = 'rgba(34, 197, 94, 0.3)';
-                
+
                 setTimeout(() => {
                     btn.textContent = original;
                     btn.style.background = '';
@@ -3225,9 +3394,8 @@ class CategorySeeder extends Seeder
 
         // Initialize syntax highlighting
         hljs.highlightAll();
-        
+
         // Set initial progress
         updateProgress();
     </script>
 </body>
-   
